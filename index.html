@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="kk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Сараптамалық жүйелердің дамуы және қолданылуы бойынша 20 сұрақтан тұратын тест. Нәтиже бірден есептеледі.">
+<meta name="color-scheme" content="light dark">
+<title>Сараптамалық жүйелер тесті</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#F3F6F8;
+  --surface:#FFFFFF;
+  --surface-2:#E7EDF1;
+  --ink:#152029;
+  --muted:#5C6B77;
+  --line:#D3DCE2;
+  --line-strong:#B4C2CB;
+  --accent:#0B6F86;
+  --accent-ink:#FFFFFF;
+  --accent-soft:#DCEEF3;
+  --ok:#2A7F3F;
+  --ok-soft:#DFF2E3;
+  --bad:#B42323;
+  --bad-soft:#F9E1E1;
+  --warn:#9A5B00;
+  --warn-soft:#FBEBCF;
+  --on-status:#FFFFFF;
+  --focus:#0B6F86;
+  --font-sans:"IBM Plex Sans",system-ui,"Segoe UI",Roboto,Arial,sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0E161C;
+    --surface:#16212A;
+    --surface-2:#1E2B35;
+    --ink:#E7EEF2;
+    --muted:#97A7B3;
+    --line:#2A3A45;
+    --line-strong:#3D515E;
+    --accent:#4FBBD3;
+    --accent-ink:#06232B;
+    --accent-soft:#12333C;
+    --ok:#5BC673;
+    --ok-soft:#15301C;
+    --bad:#F07373;
+    --bad-soft:#3A1919;
+    --warn:#F0B451;
+    --warn-soft:#3A2A0F;
+    --on-status:#0E161C;
+    --focus:#4FBBD3;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0E161C;
+  --surface:#16212A;
+  --surface-2:#1E2B35;
+  --ink:#E7EEF2;
+  --muted:#97A7B3;
+  --line:#2A3A45;
+  --line-strong:#3D515E;
+  --accent:#4FBBD3;
+  --accent-ink:#06232B;
+  --accent-soft:#12333C;
+  --ok:#5BC673;
+  --ok-soft:#15301C;
+  --bad:#F07373;
+  --bad-soft:#3A1919;
+  --warn:#F0B451;
+  --warn-soft:#3A2A0F;
+  --on-status:#0E161C;
+  --focus:#4FBBD3;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-sans);font-size:16px;line-height:1.5;padding-inline:16px;padding-block:0 56px}
+.page{max-width:760px;margin-inline:auto}
+.eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+h1{font-size:clamp(30px,5vw,42px);line-height:1.1;letter-spacing:-.015em;margin:0 0 12px;font-weight:700;text-wrap:balance}
+h2{font-size:20px;line-height:1.3;margin:0 0 6px;font-weight:600;text-wrap:balance}
+.lede{font-size:17px;color:var(--muted);max-width:62ch;margin:0 0 26px;text-wrap:pretty}
+.hero{padding-block:40px 24px}
+.field{display:grid;gap:6px;max-width:420px}
+.field label{font-size:14px;font-weight:600}
+.field .opt{font-weight:400;color:var(--muted)}
+input[type="text"]{font:inherit;padding:10px 12px;border:1px solid var(--line-strong);border-radius:8px;background:var(--surface);color:var(--ink);width:100%}
+input[type="text"]:focus-visible{outline:2px solid var(--focus);outline-offset:1px;border-color:var(--accent)}
+
+.progress{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);padding-block:12px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px}
+.progress .track{flex:1;height:6px;background:var(--surface-2);border-radius:3px;overflow:hidden}
+.progress .fill{height:100%;width:0;background:var(--accent);transition:width .25s ease}
+.progress .count{font-family:var(--font-mono);font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+
+.questions{list-style:none;margin:0;padding:0}
+.q{display:grid;grid-template-columns:56px minmax(0,1fr);gap:8px 14px;padding-block:26px;border-bottom:1px solid var(--line)}
+.q-num{font-family:var(--font-mono);font-size:14px;color:var(--muted);padding-top:3px;font-variant-numeric:tabular-nums}
+.q fieldset{border:0;margin:0;padding:0;min-width:0}
+.q-text{font-size:17px;font-weight:600;line-height:1.4;padding:0;margin:0 0 14px;text-wrap:pretty}
+.q.unanswered .q-text::after{content:"жауап таңдаңыз";display:inline-block;margin-left:10px;font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--warn);background:var(--warn-soft);padding:2px 8px;border-radius:999px;vertical-align:middle}
+.options{display:grid;gap:8px}
+.opt-row{position:relative;display:grid;grid-template-columns:26px minmax(0,1fr);gap:12px;align-items:start;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);cursor:pointer;transition:border-color .15s,background-color .15s}
+.opt-row:hover{border-color:var(--line-strong)}
+.opt-row input{position:absolute;opacity:0;width:1px;height:1px;margin:0;pointer-events:none}
+.letter{font-family:var(--font-mono);font-size:13px;font-weight:600;width:26px;height:26px;display:grid;place-items:center;border:1px solid var(--line-strong);border-radius:6px;color:var(--muted);flex:none}
+.opt-text{padding-top:2px}
+.opt-row.selected,.opt-row:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.opt-row.selected .letter,.opt-row:has(input:checked) .letter{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.opt-row:has(input:focus-visible){outline:2px solid var(--focus);outline-offset:2px}
+
+.submit-row{display:grid;gap:14px;padding-block:28px;justify-items:start}
+.btn{font:inherit;font-weight:600;padding:12px 20px;border-radius:8px;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.small{padding:8px 14px;font-size:14px}
+.btn:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.notice{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;padding:12px 14px;border-radius:8px;background:var(--warn-soft);border:1px solid var(--warn);width:100%}
+.notice p{margin:0;font-weight:500}
+.notice .btns{display:flex;flex-wrap:wrap;gap:8px;margin-left:auto}
+
+.result-head{padding-block:40px 24px;border-bottom:1px solid var(--line)}
+.scoreboard{display:flex;flex-wrap:wrap;gap:20px 44px;align-items:flex-end;margin-block:6px 16px}
+.score{display:flex;align-items:baseline;gap:8px;font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+.score .big{font-size:clamp(60px,12vw,92px);font-weight:600;line-height:1;letter-spacing:-.03em;color:var(--accent)}
+.score .of{font-size:22px;color:var(--muted)}
+.stats{display:flex;flex-wrap:wrap;gap:12px 28px;padding-bottom:10px}
+.stat{display:grid;gap:2px}
+.stat-label{font-family:var(--font-mono);font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.stat-val{font-size:20px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.2}
+.stat-val.grade-5,.stat-val.grade-4{color:var(--ok)}
+.stat-val.grade-3{color:var(--warn)}
+.stat-val.grade-2{color:var(--bad)}
+.who{margin:0 0 18px;color:var(--muted);font-size:15px}
+.actions{display:flex;flex-wrap:wrap;gap:10px}
+.copy-fallback{display:grid;gap:6px;margin-top:12px}
+.copy-fallback textarea{font:inherit;font-size:14px;width:100%;min-height:120px;padding:10px 12px;border:1px solid var(--line-strong);border-radius:8px;background:var(--surface);color:var(--ink)}
+.copy-fallback small{color:var(--muted)}
+
+.rules{padding-block:26px;border-bottom:1px solid var(--line)}
+.hint{margin:0;color:var(--muted);font-size:15px;max-width:66ch}
+.rule-list{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:6px}
+.rule{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;padding:10px 12px;border-radius:6px;border:1px solid transparent;color:var(--muted)}
+.rule code{font-family:var(--font-mono);font-size:13.5px;line-height:1.5}
+.rule code b{font-weight:600;color:var(--accent)}
+.rule.fired{color:var(--ink);background:var(--accent-soft);border-color:var(--accent)}
+.rule .badge{font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:999px;background:var(--accent);color:var(--accent-ink);margin-left:auto;white-space:nowrap}
+
+.review{padding-block:26px 0}
+.review-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px 16px;margin-bottom:6px}
+.toggle{display:inline-flex;gap:8px;align-items:center;font-size:14px;color:var(--muted);cursor:pointer}
+.toggle input{accent-color:var(--accent);width:16px;height:16px;margin:0}
+.review-list{list-style:none;margin:0;padding:0}
+.rv{display:grid;grid-template-columns:56px minmax(0,1fr);gap:8px 14px;padding-block:22px;border-top:1px solid var(--line)}
+.rv-num{font-family:var(--font-mono);font-size:14px;color:var(--muted);padding-top:2px;font-variant-numeric:tabular-nums}
+.rv-status{display:inline-block;font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:999px;margin-bottom:8px}
+.rv.ok .rv-status{background:var(--ok-soft);color:var(--ok)}
+.rv.bad .rv-status{background:var(--bad-soft);color:var(--bad)}
+.rv.skip .rv-status{background:var(--warn-soft);color:var(--warn)}
+.rv-q{font-weight:600;margin:0 0 10px;font-size:16px;line-height:1.4;text-wrap:pretty}
+.ans{display:grid;grid-template-columns:26px minmax(0,1fr);gap:10px;align-items:start;padding:8px 10px;border-radius:6px;border:1px solid var(--line);margin-bottom:6px;font-size:15px}
+.ans > div{display:grid;gap:1px}
+.tag{font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.ans.right{border-color:var(--ok);background:var(--ok-soft)}
+.ans.right .letter{background:var(--ok);border-color:var(--ok);color:var(--on-status)}
+.ans.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.ans.wrong .letter{background:var(--bad);border-color:var(--bad);color:var(--on-status)}
+.rv-why{margin:10px 0 0;font-size:15px;color:var(--muted);max-width:68ch;display:grid;gap:2px;text-wrap:pretty}
+.rv-why .tag{color:var(--accent)}
+.empty{margin:14px 0 0;color:var(--muted)}
+
+.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);max-width:70ch}
+.foot p{margin:0 0 6px}
+
+@media (max-width:520px){
+  .q,.rv{grid-template-columns:minmax(0,1fr);gap:6px}
+  .q-num,.rv-num{padding-top:0}
+  .hero{padding-block:28px 16px}
+  .notice .btns{margin-left:0}
+}
+@media (prefers-reduced-motion: reduce){
+  *{transition:none!important;scroll-behavior:auto!important}
+}
+</style>
+
+</head>
+<body>
+<main class="page" lang="kk">
+  <header class="hero">
+    <p class="eyebrow">Тест · 20 сұрақ · 4 нұсқаның біреуі дұрыс</p>
+    <h1>Сараптамалық жүйелер</h1>
+    <p class="lede">Сараптамалық жүйелердің дамуы және қолданылуы тақырыбы бойынша 20 сұрақ. Әр сұраққа бір жауап таңдаңыз да, «Нәтижені көру» түймесін басыңыз: балл, баға және әр сұрақтың түсіндірмесі бірден шығады.</p>
+    <div class="field">
+      <label for="student-name">Аты-жөні <span class="opt">(міндетті емес)</span></label>
+      <input id="student-name" type="text" autocomplete="name" placeholder="Мысалы: Айгүл Серікова">
+    </div>
+  </header>
+
+  <form id="quiz" novalidate>
+    <div class="progress" id="progress">
+      <div class="track" aria-hidden="true"><div class="fill" id="progress-fill"></div></div>
+      <div class="count" id="progress-count" aria-live="polite">Жауап берілді 0 / 20</div>
+    </div>
+    <ol class="questions" id="questions"></ol>
+    <div class="submit-row">
+      <div class="notice" id="warning" hidden role="status">
+        <p id="warning-text"></p>
+        <div class="btns">
+          <button type="button" class="btn small" id="goto-first">Біріншісіне өту</button>
+          <button type="button" class="btn small" id="submit-anyway">Бәрібір тексеру</button>
+        </div>
+      </div>
+      <button type="submit" class="btn primary" id="submit-btn">Нәтижені көру</button>
+    </div>
+  </form>
+
+  <section id="result" hidden aria-live="polite">
+    <div class="result-head">
+      <p class="eyebrow">Нәтиже</p>
+      <div class="scoreboard">
+        <div class="score"><span class="big" id="score-num">0</span><span class="of">/ 20</span></div>
+        <div class="stats">
+          <div class="stat"><span class="stat-label">Пайыз</span><span class="stat-val" id="score-pct">0 %</span></div>
+          <div class="stat"><span class="stat-label">Баға</span><span class="stat-val" id="score-grade">–</span></div>
+          <div class="stat"><span class="stat-label">Қате</span><span class="stat-val" id="score-wrong">0</span></div>
+          <div class="stat"><span class="stat-label">Жауап жоқ</span><span class="stat-val" id="score-skip">0</span></div>
+        </div>
+      </div>
+      <p class="who" id="who"></p>
+      <div class="actions">
+        <button type="button" class="btn primary" id="copy-btn">Нәтижені көшіру</button>
+        <button type="button" class="btn" id="retake-btn">Қайта тапсыру</button>
+      </div>
+      <div class="copy-fallback" id="copy-fallback" hidden>
+        <textarea id="copy-text" readonly></textarea>
+        <small>Автоматты көшіру болмады. Мәтінді белгілеп, өзіңіз көшіріңіз.</small>
+      </div>
+    </div>
+
+    <section class="rules">
+      <h2>Бағалау ережелері</h2>
+      <p class="hint">Баға шығару механизмі сияқты есептеледі: төмендегі өнімдік ережелердің шарты орындалғаны іске қосылады.</p>
+      <ol class="rule-list" id="rule-list"></ol>
+    </section>
+
+    <section class="review">
+      <div class="review-head">
+        <h2>Жауаптарды талдау</h2>
+        <label class="toggle" for="only-wrong"><input type="checkbox" id="only-wrong"> Тек қателерді көрсету</label>
+      </div>
+      <ol class="review-list" id="review-list"></ol>
+      <p class="empty" id="review-empty" hidden>Қате жоқ. Барлық жауап дұрыс.</p>
+    </section>
+  </section>
+
+  <footer class="foot">
+    <p>Нәтиже браузерде бірден есептеледі және ешқайда жіберілмейді. Мұғалімге жіберу үшін «Нәтижені көшіру» түймесін басып, мәтінді хабарламаға қойыңыз.</p>
+    <p>Бағалау шкаласы: 18–20 дұрыс — 5, 15–17 — 4, 10–14 — 3, 9 және одан аз — 2.</p>
+  </footer>
+</main>
+
+<script>
+(function(){
+  "use strict";
+  var QUESTIONS = [
+    {q:"Сараптамалық жүйе дегеніміз не?",
+     o:["Мәтіндік редактор","Белгілі бір саладағы сарапшы білімі негізінде кеңес беретін немесе шешім қабылдайтын бағдарлама","Операциялық жүйе","Компьютерлік желі"],
+     a:1,
+     why:"Сараптамалық жүйе тар саладағы адам-сарапшының білімін формалдап, сол білім негізінде кеңес береді немесе шешім қабылдайды."},
+    {q:"Алғашқы сараптамалық жүйелердің бірі DENDRAL қай салада қолданылды?",
+     o:["Медицина","Қаржы","Химия — молекула құрылымын анықтау","Геология"],
+     a:2,
+     why:"DENDRAL (1965, Стэнфорд) масс-спектрометрия деректері бойынша органикалық молекулалардың құрылымын анықтады."},
+    {q:"MYCIN жүйесі не үшін жасалды?",
+     o:["Қан инфекцияларын диагностикалау және антибиотик ұсыну","Компьютер конфигурациясын баптау","Шахмат ойнау","Ауа райын болжау"],
+     a:0,
+     why:"MYCIN (1970-жылдар, Стэнфорд) қандағы бактериялық инфекцияларды диагностикалап, антибиотик пен оның дозасын ұсынды. Онда 450-ге жуық ереже болды."},
+    {q:"Сараптамалық жүйеде білім (фактілер мен ережелер) қай бөлікте сақталады?",
+     o:["Пайдаланушы интерфейсінде","Шығару механизмінде","Түсіндіру модулінде","Білім базасында"],
+     a:3,
+     why:"Білім базасы — саланың фактілері мен ережелері сақталатын бөлік. Шығару механизмі осы білімді пайдаланып қорытынды жасайды."},
+    {q:"Шығару механизмінің (inference engine) негізгі қызметі қандай?",
+     o:["Ережелерді фактілерге қолданып, жаңа қорытынды шығару","Деректерді басып шығару","Интернетке қосылу","Суреттерді өңдеу"],
+     a:0,
+     why:"Шығару механизмі білім базасындағы ережелерді белгілі фактілерге қолданып, жаңа фактілер мен қорытындылар шығарады."},
+    {q:"Тура тізбекті шығару (forward chaining) қалай жұмыс істейді?",
+     o:["Мақсаттан бастап фактілерді іздейді","Белгілі фактілерден бастап қорытындыға қарай жылжиды","Кездейсоқ ереже таңдайды","Тек пайдаланушыдан сұрайды"],
+     a:1,
+     why:"Тура тізбекте жүйе қолда бар фактілерден бастап, шарты орындалған ережелерді іске қосып, қорытындыға қарай жылжиды. Бұл деректерден басқарылатын шығару."},
+    {q:"Кері тізбекті шығару (backward chaining) неден басталады?",
+     o:["Кездейсоқ фактіден","Интерфейстен","Мақсаттан (гипотезадан) бастап, оны растайтын фактілерді іздейді","Ережелерді жоюдан"],
+     a:2,
+     why:"Кері тізбекте жүйе алдымен гипотезаны (мақсатты) алып, оны растау үшін қажетті фактілерді іздейді. Бұл мақсаттан басқарылатын шығару; MYCIN осы тәсілді қолданды."},
+    {q:"Өнімдік ереженің жалпы түрі қандай?",
+     o:["ЕГЕР <шарт>, ОНДА <әрекет/қорытынды>","ҮШІН <цикл>","ӘЗІРШЕ <шарт>","ТАҢДА <нұсқа>"],
+     a:0,
+     why:"Өнімдік ереже «ЕГЕР шарт, ОНДА әрекет» түрінде жазылады: шарт бөлігі фактілермен салыстырылады, орындалса — қорытынды бөлігі іске қосылады."},
+    {q:"Білім инженері (knowledge engineer) кім?",
+     o:["Компьютер жөндеуші","Сарапшыдан білімді алып, оны білім базасына формалдайтын маман","Бағдарламаны сатушы","Жүйенің соңғы пайдаланушысы"],
+     a:1,
+     why:"Білім инженері сарапшымен сұхбаттасып, оның тәжірибесін жүйе түсінетін ережелер мен фактілерге айналдырады."},
+    {q:"Түсіндіру модулінің міндеті не?",
+     o:["Жүйені вирустан қорғау","Деректерді сығу","Жүйенің қорытындыға қалай келгенін пайдаланушыға түсіндіру","Экранды безендіру"],
+     a:2,
+     why:"Түсіндіру модулі «Неге?» және «Қалай?» сұрақтарына жауап беріп, қандай ережелер қолданылғанын көрсетеді. Бұл пайдаланушының жүйеге сенімін арттырады."},
+    {q:"PROSPECTOR жүйесі қай салада қолданылды?",
+     o:["Банк ісі","Геология — пайдалы қазба кен орындарын бағалау","Заң","Білім беру"],
+     a:1,
+     why:"PROSPECTOR (1970-жылдардың соңы, SRI International) геологтарға кен орнының болу ықтималдығын бағалауға көмектесті және Вашингтон штатындағы молибден кен орнын болжады."},
+    {q:"XCON (R1) жүйесі қандай міндетті шешті?",
+     o:["DEC компаниясының VAX компьютерлерін тапсырыс бойынша конфигурациялау","Ауруды анықтау","Мұнай ұңғымасын бұрғылау","Аударма жасау"],
+     a:0,
+     why:"XCON (бастапқы атауы R1, 1980, Карнеги-Меллон мен DEC) тапсырыс бойынша VAX компьютерлерінің құрамдас бөліктерін дұрыс жинақтады. Ол ең табысты коммерциялық сараптамалық жүйелердің бірі."},
+    {q:"Анық емес (fuzzy) логика сараптамалық жүйелерде не үшін қолданылады?",
+     o:["Деректерді шифрлау үшін","Жадыны үнемдеу үшін","«Жоғары», «сәл» сияқты анық емес ұғымдармен жұмыс істеу үшін","Графика салу үшін"],
+     a:2,
+     why:"Анық емес логика (Лотфи Заде, 1965) шамаларды 0 мен 1 арасындағы дәрежемен сипаттайды, сондықтан «жоғары температура», «сәл жылдам» сияқты ұғымдармен жұмыс істеуге мүмкіндік береді."},
+    {q:"Сараптамалық жүйелердің коммерциялық «бум» кезеңі қай жылдарға келеді?",
+     o:["1950 жылдар","1980 жылдар","2010 жылдар","1940 жылдар"],
+     a:1,
+     why:"1980-жылдары XCON сияқты жүйелердің табысы сараптамалық жүйелердің коммерциялық бумын тудырды: Lisp-машиналар мен қабықшалар шықты. 1980-жылдардың соңында «жасанды интеллект қысы» басталды."},
+    {q:"«Білім алу мәселесі» (knowledge acquisition bottleneck) нені білдіреді?",
+     o:["Интернет жылдамдығының төмендігін","Сарапшы білімін алу және формалдау қиындығын","Жадының жетіспеуін","Пайдаланушылардың аздығын"],
+     a:1,
+     why:"Сарапшыға өз білімін нақты ережелермен айтып беру қиын, ал білім инженерінің оны жинауы мен формалдауы баяу әрі қымбат. Бұл сараптамалық жүйелер дамуының басты кедергісі."},
+    {q:"Сараптамалық жүйе қабықшасы (shell) дегеніміз не?",
+     o:["Білім базасы бос, бірақ дайын шығару механизмі мен интерфейсі бар құрал","Компьютер корпусы","Антивирус","Операциялық жүйенің командалық жолы"],
+     a:0,
+     why:"Қабықша — белгілі бір салаға байланбаған дайын құрал: шығару механизмі, интерфейс және түсіндіру модулі бар, тек білім базасын толтыру қажет. Мысалы: EMYCIN, CLIPS."},
+    {q:"CLIPS құралын қай ұйым әзірледі?",
+     o:["Microsoft","Google","NASA","IBM"],
+     a:2,
+     why:"CLIPS (C Language Integrated Production System) 1985 жылы NASA-ның Джонсон ғарыш орталығында әзірленді."},
+    {q:"Prolog тілі қай бағдарламалау парадигмасына жатады?",
+     o:["Логикалық","Тек объектіге бағытталған","Ассемблерлік","Визуалды"],
+     a:0,
+     why:"Prolog (1972) — логикалық бағдарламалау тілі: бағдарлама фактілер мен ережелерден тұрады, ал жауапты жүйе логикалық шығару арқылы табады."},
+    {q:"Төмендегілердің қайсысы классикалық сараптамалық жүйенің артықшылығы ЕМЕС?",
+     o:["Шаршамайды, тұрақты жұмыс істейді","Сарапшы білімін сақтайды","Шешімін түсіндіре алады","Жалпы парасаттылық пен шығармашылыққа ие"],
+     a:3,
+     why:"Классикалық сараптамалық жүйе тек өз тар саласында жұмыс істейді; оған жалпы парасаттылық (common sense) пен шығармашылық тән емес."},
+    {q:"Қазіргі заманғы жүйелерде қандай тәсіл кеңінен қолданылады?",
+     o:["Тек перфокарталар","Ережеге негізделген жүйелер мен машиналық оқыту/LLM-ді біріктіретін гибридті тәсіл","Тек қолмен есептеу","Сараптамалық жүйелерден толық бас тарту"],
+     a:1,
+     why:"Қазіргі жүйелерде ережеге негізделген тәсіл машиналық оқытумен және үлкен тілдік модельдермен (LLM) біріктіріледі: ережелер түсіндірілімділік пен бақылауды, ал ML/LLM икемділікті береді."}
+  ];
+  var LETTERS = ["A","B","C","D"];
+  var TOTAL = QUESTIONS.length;
+  var GRADES = [
+    {min:18, grade:5, word:"өте жақсы",          cond:"дұрыс жауап ≥ 18 (90–100 %)"},
+    {min:15, grade:4, word:"жақсы",              cond:"15 ≤ дұрыс жауап ≤ 17 (75–89 %)"},
+    {min:10, grade:3, word:"қанағаттанарлық",    cond:"10 ≤ дұрыс жауап ≤ 14 (50–74 %)"},
+    {min:0,  grade:2, word:"қанағаттанарлықсыз", cond:"дұрыс жауап ≤ 9 (0–49 %)"}
+  ];
+
+  function $(id){ return document.getElementById(id); }
+  function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+  function pad(n){ return (n < 10 ? "0" : "") + n; }
+  var reduceMotion = false;
+  try { reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
+
+  var els = {
+    name: $("student-name"), form: $("quiz"), list: $("questions"),
+    fill: $("progress-fill"), count: $("progress-count"),
+    warning: $("warning"), warningText: $("warning-text"),
+    gotoFirst: $("goto-first"), submitAnyway: $("submit-anyway"), submitBtn: $("submit-btn"),
+    result: $("result"), scoreNum: $("score-num"), scorePct: $("score-pct"),
+    scoreGrade: $("score-grade"), scoreWrong: $("score-wrong"), scoreSkip: $("score-skip"),
+    who: $("who"), copyBtn: $("copy-btn"), retakeBtn: $("retake-btn"),
+    copyFallback: $("copy-fallback"), copyText: $("copy-text"),
+    ruleList: $("rule-list"), reviewList: $("review-list"), reviewEmpty: $("review-empty"),
+    onlyWrong: $("only-wrong")
+  };
+  var state = { submitted:false, answers:[], finishedAt:null };
+
+  function renderQuestions(){
+    var html = "";
+    QUESTIONS.forEach(function(item, i){
+      var n = i + 1;
+      html += '<li class="q" id="q-' + n + '"><div class="q-num">' + pad(n) + '</div><fieldset>' +
+              '<legend class="q-text">' + esc(item.q) + '</legend><div class="options">';
+      item.o.forEach(function(opt, j){
+        var id = "q" + n + "-" + LETTERS[j].toLowerCase();
+        html += '<label class="opt-row" for="' + id + '">' +
+                '<input type="radio" name="q' + n + '" id="' + id + '" value="' + j + '">' +
+                '<span class="letter" aria-hidden="true">' + LETTERS[j] + '</span>' +
+                '<span class="opt-text">' + esc(opt) + '</span></label>';
+      });
+      html += '</div></fieldset></li>';
+    });
+    els.list.innerHTML = html;
+  }
+
+  function getAnswers(){
+    return QUESTIONS.map(function(_, i){
+      var c = els.form.querySelector('input[name="q' + (i + 1) + '"]:checked');
+      return c ? Number(c.value) : null;
+    });
+  }
+
+  function updateProgress(){
+    var answers = getAnswers();
+    var done = answers.filter(function(a){ return a !== null; }).length;
+    els.fill.style.width = (done / TOTAL * 100) + "%";
+    els.count.textContent = "Жауап берілді " + done + " / " + TOTAL;
+    answers.forEach(function(a, i){
+      if (a !== null) $("q-" + (i + 1)).classList.remove("unanswered");
+    });
+    if (done === TOTAL) els.warning.hidden = true;
+    return answers;
+  }
+
+  function scoreOf(answers){
+    var correct = 0, wrong = 0, skipped = 0, wrongList = [];
+    answers.forEach(function(a, i){
+      if (a === null) { skipped++; wrongList.push(i + 1); }
+      else if (a === QUESTIONS[i].a) correct++;
+      else { wrong++; wrongList.push(i + 1); }
+    });
+    var rule = GRADES.filter(function(g){ return correct >= g.min; })[0];
+    return { correct:correct, wrong:wrong, skipped:skipped, wrongList:wrongList,
+             pct:Math.round(correct / TOTAL * 100), rule:rule };
+  }
+
+  function fmtDate(d){
+    try {
+      return new Intl.DateTimeFormat("kk-KZ", {day:"2-digit", month:"2-digit", year:"numeric", hour:"2-digit", minute:"2-digit"}).format(d);
+    } catch (e) { return d.toLocaleString(); }
+  }
+
+  function renderRules(fired){
+    els.ruleList.innerHTML = GRADES.map(function(g){
+      var on = g === fired;
+      return '<li class="rule' + (on ? ' fired' : '') + '"><code><b>ЕГЕР</b> ' + esc(g.cond) +
+             ' <b>ОНДА</b> баға = ' + g.grade + ' («' + esc(g.word) + '»)</code>' +
+             (on ? '<span class="badge">іске қосылды</span>' : '') + '</li>';
+    }).join("");
+  }
+
+  function renderReview(answers, onlyWrong){
+    var html = "", shown = 0;
+    QUESTIONS.forEach(function(item, i){
+      var mine = answers[i];
+      var ok = mine === item.a;
+      var cls = mine === null ? "skip" : (ok ? "ok" : "bad");
+      if (onlyWrong && ok) return;
+      shown++;
+      var label = mine === null ? "Жауап жоқ" : (ok ? "Дұрыс" : "Қате");
+      html += '<li class="rv ' + cls + '"><div class="rv-num">' + pad(i + 1) + '</div><div>' +
+              '<span class="rv-status">' + label + '</span>' +
+              '<p class="rv-q">' + esc(item.q) + '</p>';
+      if (mine !== null && !ok) {
+        html += '<div class="ans wrong"><span class="letter" aria-hidden="true">' + LETTERS[mine] + '</span><div>' +
+                '<span class="tag">Сіздің жауабыңыз</span><span>' + esc(item.o[mine]) + '</span></div></div>';
+      }
+      html += '<div class="ans right"><span class="letter" aria-hidden="true">' + LETTERS[item.a] + '</span><div>' +
+              '<span class="tag">' + (ok ? "Сіздің жауабыңыз · дұрыс" : "Дұрыс жауап") + '</span><span>' + esc(item.o[item.a]) + '</span></div></div>';
+      html += '<p class="rv-why"><span class="tag">Түсіндірме</span><span>' + esc(item.why) + '</span></p>';
+      html += '</div></li>';
+    });
+    els.reviewList.innerHTML = html;
+    els.reviewEmpty.hidden = shown > 0;
+  }
+
+  function summaryText(s){
+    var lines = ["Сараптамалық жүйелер тесті"];
+    var name = els.name.value.trim();
+    if (name) lines.push("Аты-жөні: " + name);
+    lines.push("Нәтиже: " + s.correct + "/" + TOTAL + " (" + s.pct + " %), баға: " + s.rule.grade + " (" + s.rule.word + ")");
+    lines.push(s.wrongList.length ? "Қате немесе жауапсыз сұрақтар: " + s.wrongList.join(", ") : "Барлық жауап дұрыс.");
+    if (state.finishedAt) lines.push("Уақыты: " + fmtDate(state.finishedAt));
+    return lines.join("\n");
+  }
+
+  function showResult(){
+    var answers = getAnswers();
+    state.answers = answers;
+    state.submitted = true;
+    if (!state.finishedAt) state.finishedAt = new Date();
+    var s = scoreOf(answers);
+    els.scoreNum.textContent = String(s.correct);
+    els.scorePct.textContent = s.pct + " %";
+    els.scoreGrade.textContent = s.rule.grade + " · " + s.rule.word;
+    els.scoreGrade.className = "stat-val grade-" + s.rule.grade;
+    els.scoreWrong.textContent = String(s.wrong);
+    els.scoreSkip.textContent = String(s.skipped);
+    var name = els.name.value.trim();
+    els.who.textContent = (name ? "Тапсырған: " + name + " · " : "Тапсырылған уақыты: ") + fmtDate(state.finishedAt);
+    renderRules(s.rule);
+    renderReview(answers, els.onlyWrong.checked);
+    els.copyFallback.hidden = true;
+    els.copyBtn.textContent = "Нәтижені көшіру";
+    els.form.hidden = true;
+    els.result.hidden = false;
+    try { window.scrollTo({top:0, behavior: reduceMotion ? "auto" : "smooth"}); } catch (e) { window.scrollTo(0, 0); }
+  }
+
+  function trySubmit(force){
+    var answers = updateProgress();
+    var missing = [];
+    answers.forEach(function(a, i){ if (a === null) missing.push(i); });
+    if (missing.length && !force) {
+      missing.forEach(function(i){ $("q-" + (i + 1)).classList.add("unanswered"); });
+      els.warningText.textContent = missing.length + " сұраққа әлі жауап берілмеді.";
+      els.warning.hidden = false;
+      return;
+    }
+    showResult();
+  }
+
+  function retake(){
+    state.submitted = false;
+    state.finishedAt = null;
+    els.form.reset();
+    Array.prototype.forEach.call(els.list.querySelectorAll(".opt-row.selected"), function(el){ el.classList.remove("selected"); });
+    Array.prototype.forEach.call(els.list.querySelectorAll(".q.unanswered"), function(el){ el.classList.remove("unanswered"); });
+    els.warning.hidden = true;
+    els.result.hidden = true;
+    els.form.hidden = false;
+    updateProgress();
+    try { window.scrollTo({top:0, behavior: reduceMotion ? "auto" : "smooth"}); } catch (e) { window.scrollTo(0, 0); }
+  }
+
+  function copyResult(){
+    var text = summaryText(scoreOf(state.answers));
+    var done = function(){
+      els.copyBtn.textContent = "Көшірілді";
+      setTimeout(function(){ els.copyBtn.textContent = "Нәтижені көшіру"; }, 2000);
+    };
+    var fail = function(){
+      els.copyText.value = text;
+      els.copyFallback.hidden = false;
+      els.copyText.focus();
+      els.copyText.select();
+    };
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, fail);
+      } else { fail(); }
+    } catch (e) { fail(); }
+  }
+
+  els.list.addEventListener("change", function(ev){
+    var input = ev.target;
+    if (!input || input.type !== "radio") return;
+    var rows = input.closest("fieldset").querySelectorAll(".opt-row");
+    Array.prototype.forEach.call(rows, function(r){ r.classList.remove("selected"); });
+    input.closest(".opt-row").classList.add("selected");
+    updateProgress();
+  });
+  els.form.addEventListener("submit", function(ev){ ev.preventDefault(); trySubmit(false); });
+  els.submitAnyway.addEventListener("click", function(){ trySubmit(true); });
+  els.gotoFirst.addEventListener("click", function(){
+    var first = els.list.querySelector(".q.unanswered");
+    if (first) {
+      first.scrollIntoView({behavior: reduceMotion ? "auto" : "smooth", block:"center"});
+      var radio = first.querySelector("input");
+      if (radio) radio.focus({preventScroll:true});
+    }
+  });
+  els.retakeBtn.addEventListener("click", retake);
+  els.copyBtn.addEventListener("click", copyResult);
+  els.onlyWrong.addEventListener("change", function(){ renderReview(state.answers, els.onlyWrong.checked); });
+
+  function getState(){
+    return { name: els.name.value, answers: getAnswers(), submitted: state.submitted,
+             finishedAt: state.finishedAt ? state.finishedAt.getTime() : null };
+  }
+  function start(data){
+    renderQuestions();
+    data = data || {};
+    if (Array.isArray(data.answers)) {
+      data.answers.forEach(function(v, i){
+        if (v === null || v === undefined || !LETTERS[v]) return;
+        var inp = $("q" + (i + 1) + "-" + LETTERS[v].toLowerCase());
+        if (inp) { inp.checked = true; inp.closest(".opt-row").classList.add("selected"); }
+      });
+    }
+    if (typeof data.name === "string" && data.name) els.name.value = data.name;
+    if (data.finishedAt) state.finishedAt = new Date(data.finishedAt);
+    updateProgress();
+    if (data.submitted) showResult();
+    try { if (window.claude && window.claude.hot && window.claude.hot.snapshot) window.claude.hot.snapshot(getState); } catch (e) {}
+  }
+  try {
+    if (window.claude && window.claude.hot && window.claude.hot.ready) window.claude.hot.ready(start);
+    else start(window.claude && window.claude.hot ? window.claude.hot.data : {});
+  } catch (e) { start({}); }
+})();
+</script>
+</body>
+</html>
