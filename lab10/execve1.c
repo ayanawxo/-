@@ -11,7 +11,7 @@ int main (void)
                 NULL
         };
 
-        execve ("/bin/uname", uname_args, environ);
+        execve ("/usr/bin/uname", uname_args, environ);
         fprintf (stderr, "Error\n");
         return 0;
 }
