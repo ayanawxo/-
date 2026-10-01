@@ -2,7 +2,7 @@
 
 Методичкадағы барлық листингтер (10.4 – 10.18) осы папкада. Терминалда былай орындалады:
 
-> **macOS ескертпесі.** Методичка Linux-қа арналған. Mac-та жұмыс істеуі үшін осы папкадағы кодқа үш өзгеріс енгізілген (Linux-та да бірдей жұмыс істейді): `execve1.c` ішінде `/bin/uname` орнына `/usr/bin/uname` (Mac-та `uname` тек `/usr/bin`-де), ал `lsstatus.c` мен `killedchild.c` ішінде `<wait.h>` орнына `<sys/wait.h>` (Darwin-да `wait.h` жоқ).
+> **macOS ескертпесі.** Методичка Linux-қа арналған. Mac-та жұмыс істеуі үшін осы папкадағы кодқа үш өзгеріс енгізілген (Linux-та да бірдей жұмыс істейді): `execve1.c` ішінде `/bin/uname` орнына `/usr/bin/uname` (Mac-та `uname` тек `/usr/bin`-де), ал `lsstatus.c` мен `killedchild.c` ішінде `<wait.h>` орнына `<sys/wait.h>` (Darwin-да `wait.h` жоқ). Mac-та `./lsstatus abrakadabra` `code=1` береді (BSD `ls` қате кезінде 1 қайтарады, GNU `ls` 2), ал `ps` терминалды `pts/0` орнына `ttys000` деп көрсетеді.
 
 ```bash
 cd lab10
